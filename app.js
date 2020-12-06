@@ -30,6 +30,9 @@ app.get("/getall",(request,response)=>{
     .then(data=>response.json({data:data}));
 });      
 
+app.get("/",(req,res)=>{
+    res.render("./client/index.html")
+})
 //update route
 app.put("/insert",(request,response)=>{
     const { name } = request.body;

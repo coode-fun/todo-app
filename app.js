@@ -31,7 +31,7 @@ app.get("/getall",(request,response)=>{
 });      
 
 app.get("/",(req,res)=>{
-    res.render("./client/index.html")
+    res.render("./client/index.html");
 })
 //update route
 app.put("/insert",(request,response)=>{
@@ -56,6 +56,6 @@ app.delete("/delete/:Id",(request,response)=>{
     
 });
 
-app.listen(5000,()=>{
+app.listen(process.env.PORT||5000,()=>{
     console.log("Server Running at http://localhost:5000");
 });

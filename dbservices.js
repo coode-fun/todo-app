@@ -6,6 +6,11 @@ dotenv.config();
 
 
 const connection=mysql.createConnection({
+    // host:'localhost',
+    // user:'root',
+    // password:'',
+    // database:'webapp',
+    // port:3306
     host:'us-cdbr-east-02.cleardb.com',
     user:'b2d0edfdf98be6',
     password:'90d70b55',
@@ -79,8 +84,8 @@ class Dbservice{
                         
                         if(err) reject(new Error(err.message));
 
-                        console.log(result);
-                        console.log(result.affectedRows);
+                        console.log(result,"----------->result ");
+                        console.log(result.affectedRows,"----------->affected");
                         if(result.affectedRows===1)
                         resolve(true);
                         else 

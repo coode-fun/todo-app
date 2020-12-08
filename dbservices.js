@@ -6,11 +6,11 @@ dotenv.config();
 
 
 const connection=mysql.createConnection({
-    host:process.env.HOST,
-    user:process.env.USER,
-    password:process.env.PASSWORD,
-    database:process.env.DATABASE,
-    port:process.env.DBPORT
+    host:'us-cdbr-east-02.cleardb.com',
+    user:'b2d0edfdf98be6',
+    password:'90d70b55',
+    database:'heroku_8d3b69cd683633a',
+    port:3306
 });
 
 connection.connect((err)=>{

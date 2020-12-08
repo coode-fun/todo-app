@@ -31,6 +31,7 @@ function deleteRowbyId(id)
 }
 function reloadTable()
 {  
+
   fetch('http://localhost:5000/getAll')
   .then(response=>response.json())
   .then(data=>{ loadHTMLTable(data.data);});
@@ -78,6 +79,7 @@ function insertRowIntoTable(element)
 
 function loadHTMLTable(data){
   
+  console.log(data);
 let table=document.getElementById('one');
 
     if(data.length===0)

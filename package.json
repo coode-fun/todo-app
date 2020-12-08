@@ -1,5 +1,5 @@
 {
-  "name": "Demo",
+  "name": "todo-app",
   "version": "1.0.0",
   "description": "\"starting express tutorial\"",
   "main": "index.js",

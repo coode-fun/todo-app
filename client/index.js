@@ -85,7 +85,7 @@ let table=document.getElementById('one');
       table.innerHTML="<tr><td class='no-data' colspan='5'>No-data</td></tr>";
     }
     else{
-
+        console.log("INside else");
          let tableRow="";
         data.forEach(element => {
           

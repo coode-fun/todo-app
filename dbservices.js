@@ -76,7 +76,11 @@ class Dbservice{
                 const query=`Delete from item where id=${id};`;
 
                 connection.query(query,(err,result)=>{
+                        
                         if(err) reject(new Error(err.message));
+
+                        console.log(result);
+                        console.log(result.affectedRows);
                         if(result.affectedRows===1)
                         resolve(true);
                         else 

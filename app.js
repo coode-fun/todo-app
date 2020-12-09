@@ -10,6 +10,11 @@ app.use(express.json()); //file sharing in jason format
 app.use(express.urlencoded({extended : false}));
 app.use(express.static(__dirname+"/client"));
 
+
+// app.get("*",(req,res)=>{
+
+//     res.sendFile(path.resolve(__dirname,'public',''))
+// })
 //create
 app.post("/insert",(request,response)=>{
 

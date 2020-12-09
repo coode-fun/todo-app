@@ -1,15 +1,6 @@
 
 let instance=null;
 const pool=require('./connection.js');
-// connection.connect(function (err){
-//     if(err){ 
-//              console.log("Connection failed!!");
-//              throw err;
-//     }
-//     else
-//     console.log("Database Successfully connected!!");
-// });
-
 
 class Dbservice{
 
@@ -23,21 +14,29 @@ class Dbservice{
              const response= await new Promise((resolve,reject)=>{
 
                 pool.getConnection((err,connection)=>{
+                 
+                    if(err)
+                    {
+                        throw err.message;
+                    }
                 const query='SELECT * FROM  ITEM;';
                 connection.query(query,(err,result)=>{
                     connection.release();
                    if(err)
+                   {
                         reject(new Error(err.message));
-                   else
+                   }
+                   else{
                         resolve(result);
+                   }
                 });
             });
                 })    
              console.log(response);
              return response;
         }
-        catch{
-                 console.log("Error");
+        catch(error){
+                 console.log(error," Error from getAll function");
         }
     }
     async insertData(name){
@@ -45,11 +44,20 @@ class Dbservice{
                 const dateAdded = new Date();
                 const insertId = await new Promise((resolve, reject) => {
                     pool.getConnection((err,connection)=>{
+                        
+                    if(err)
+                    {
+                        throw err.message;
+                    }
                     const query = "INSERT INTO item (name, date_added) VALUES (?,?);";
     
                     connection.query(query, [name, dateAdded] , (err, rows) => {
                         connection.release();
-                        if (err) reject(new Error(err.message));
+                        if (err) {
+                            
+                            reject(new Error(err.message));
+                            throw new Error(err.message);
+                        }
                         else{
                             console.log(rows);
                             resolve(rows.insertId);
@@ -64,7 +72,7 @@ class Dbservice{
             };
            
         } catch (error) {
-            console.log(error);
+            console.log(error, " Error from Insertdata side");
         }
     }
     async  deleteData(id)
@@ -74,16 +82,19 @@ class Dbservice{
             let response=await new Promise((resolve,reject)=>{
                
                 pool.getConnection((err,connection)=>{
+                    
+                    if(err)
+                    {
+                        throw err.message;
+                    }
                     const query=`Delete from item where id=${id};`;
-
                     connection.query(query,(err,result)=>{
                             connection.release();
                             if(err) {
                                 reject(new Error(err.message));
+                                throw new Error(err.message)
                             }
                             else{                                   
-                                console.log(result,"----------->result ");
-                                console.log(result.affectedRows,"----------->affected");
                                 if(result.affectedRows===1)
                                     resolve(true);
                                 else 

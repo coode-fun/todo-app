@@ -12,63 +12,89 @@ app.use(express.static(__dirname+"/client"));
 
 //create
 app.post("/insert",(request,response)=>{
+
+    if(!request.body)
+    {
+        response.status(400);
+        response.send("Error 400!")
+    }
     const { name } = request.body;
-    // const db = dbservices.getDbServiceInstance();
-    
     const db = dbservices.getDbServiceInstance();
-    
+    if(!db)
+    {
+        response.send("Server down !!");
+    }
     const result = db.insertData(name);
     result
     .then(data => response.json({ data: data}))
-    .catch(err => console.log(err));
+    .catch(err => console.log(err,"unable to insert data into the database"));
 });
 
 //read route
 app.get("/getall",(request,response)=>{
     
-    // const db=dbservices.getDbServiceInstance();
-    // connection.connect();
-    console.log("getAll");
+    if(!request.body)
+    {
+        response.status(400);
+        response.send("Error 400!")
+    }
     const db = dbservices.getDbServiceInstance();
-    
+    if(!db)
+    {
+        response.send("Server down !!");
+    }
     const result=db.getAllData();
-    // connection.end();
-    
     result
-    .then(data=>response.json({data:data}));
+    .then(data=>response.json({data:data}))
+    .catch(err=>console.log(err,"unable to fetch data into the database "));
 });      
 
 app.get("/",(req,res)=>{
+    if(!request.body)
+    {
+        response.status(400);
+        response.send("Error 400!")
+    }
     res.render("./client/index.html");
 })
 //update route
 app.put("/insert",(request,response)=>{
+    if(!request.body)
+    {
+        response.status(400);
+        response.send("Error 400!")
+    }
     const { name } = request.body;
-    // const db = dbService.getDbServiceInstance();
-   
     const db = dbservices.getDbServiceInstance();
-    
+    if(!db)
+    {
+        response.send("Server down !!");
+    }
     const result = db.insertData(name);
     result
     .then(data => response.json({ data: data}))
     .catch(err => console.log(err));
-    
 });
 
 //delete route
 app.delete("/delete/:Id",(request,response)=>{
-
+    if(!request.body)
+    {
+        response.status(400);
+        response.send("Error 400!")
+    }
     const id=request.params.Id;
-    
     const db = dbservices.getDbServiceInstance();
-   
+    if(!db)
+    {
+        response.send("Server down !!");
+    }
     const result = db.deleteData(id);
     result
     .then(data => response.json({ success: data}))
     .catch(err => console.log(err));
-    
 });
-
-app.listen(process.env.PORT||5000,()=>{
-    console.log("Server Running at http://localhost:5000");
+var port=process.env.PORT||5000;
+app.listen(port,()=>{
+    console.log(`Server Running at http://localhost:${port}`);
 });

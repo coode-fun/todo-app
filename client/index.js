@@ -1,8 +1,9 @@
-
+const dotenv=require('dotenv');
+dotenv.config();
 
 document.addEventListener('DOMContentLoaded', function() {
    
-    fetch('http://localhost:5000/getAll')
+    fetch(`http://${process.env.HOST}:${process.env.port}/getAll`)
     .then(response=>response.json())
     .then(data=>{ loadHTMLTable(data.data);});
 });
@@ -21,7 +22,7 @@ document.getElementById('one').addEventListener("click",(event)=>{
 
 function deleteRowbyId(id)
 {
-            fetch('http://localhost:5000/delete/'+id,{method:'DELETE'})
+            fetch(`http://${process.env.HOST}:${process.env.port}/delete/`+id,{method:'DELETE'})
            .then(response=>response.json())
            .then(response=>{
             if(response.success)
@@ -34,7 +35,7 @@ function deleteRowbyId(id)
 function reloadTable()
 {  
 
-  fetch('http://localhost:5000/getAll')
+  fetch(`http://${process.env.HOST}:${process.env.port}/getAll`)
   .then(response=>response.json())
   .then(data=>{ loadHTMLTable(data.data);});
 }
@@ -45,7 +46,7 @@ addbtn.addEventListener('click',()=>{
   const name=addname.value;
   addname.value="";
 
-  fetch('http://localhost:5000/insert',{
+  fetch(`http://${process.env.HOST}:${process.env.port}/insert`,{
   headers:{'content-type':'application/json'},
   method:'POST',
   body:  JSON.stringify({name:name})

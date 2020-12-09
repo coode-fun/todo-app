@@ -5,7 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
    
-    fetch(`http://${process.env.HOST}:${process.env.port}/getAll`)
+    fetch(`http://us-cdbr-east-02.cleardb.com:5000/getAll`)
     .then(response=>response.json())
     .then(data=>{ loadHTMLTable(data.data);});
 });
@@ -24,7 +24,7 @@ document.getElementById('one').addEventListener("click",(event)=>{
 
 function deleteRowbyId(id)
 {
-            fetch(`http://${process.env.HOST}:${process.env.port}/delete/`+id,{method:'DELETE'})
+            fetch(`http://us-cdbr-east-02.cleardb:5000/delete/`+id,{method:'DELETE'})
            .then(response=>response.json())
            .then(response=>{
             if(response.success)
@@ -37,7 +37,7 @@ function deleteRowbyId(id)
 function reloadTable()
 {  
 
-  fetch(`http://${process.env.HOST}:${process.env.port}/getAll`)
+  fetch(`http://us-cdbr-east-02.cleardb:5000/getAll`)
   .then(response=>response.json())
   .then(data=>{ loadHTMLTable(data.data);});
 }
@@ -48,7 +48,7 @@ addbtn.addEventListener('click',()=>{
   const name=addname.value;
   addname.value="";
 
-  fetch(`http://${process.env.HOST}:${process.env.port}/insert`,{
+  fetch(`http://us-cdbr-east-02.cleardb:5000/insert`,{
   headers:{'content-type':'application/json'},
   method:'POST',
   body:  JSON.stringify({name:name})

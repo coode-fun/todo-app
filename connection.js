@@ -1,7 +1,6 @@
 const mysql=require("mysql");
 const dotenv=require("dotenv");
 
-
 dotenv.config();
 
 
@@ -9,7 +8,8 @@ var pool=mysql.createPool({
     // user:'root',
     // password:'',
     // database:'webapp',
-    // port:3306
+    // port:3306,
+    // host:'localhost'
     connectionLimit : 10,
     host:'us-cdbr-east-02.cleardb.com',
     user:'b2d0edfdf98be6',

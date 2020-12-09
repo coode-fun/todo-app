@@ -1,6 +1,6 @@
 
 let instance=null;
-const pool=require('./connection');
+const pool=require('./connection.js');
 // connection.connect(function (err){
 //     if(err){ 
 //              console.log("Connection failed!!");
@@ -15,12 +15,11 @@ class Dbservice{
 
     static getDbServiceInstance()
     {
-      
+      console.log("Into instance!");
         return instance?instance:new Dbservice();
     }
     async getAllData(){
         try{
-        
              const response= await new Promise((resolve,reject)=>{
 
                 pool.getConnection((err,connection)=>{
@@ -45,7 +44,7 @@ class Dbservice{
         try{           
                 const dateAdded = new Date();
                 const insertId = await new Promise((resolve, reject) => {
-                    connection.getConnection((err,connection)=>{
+                    pool.getConnection((err,connection)=>{
                     const query = "INSERT INTO item (name, date_added) VALUES (?,?);";
     
                     connection.query(query, [name, dateAdded] , (err, rows) => {
@@ -57,12 +56,12 @@ class Dbservice{
                         }
                     })
                 });
-                return {
-                    ID : insertId,
-                    Name : name,
-                    Date_Added : dateAdded
-                };
             })
+            return {
+                ID : insertId,
+                Name : name,
+                Date_Added : dateAdded
+            };
            
         } catch (error) {
             console.log(error);
@@ -74,27 +73,26 @@ class Dbservice{
             
             let response=await new Promise((resolve,reject)=>{
                
-                connection.getConnection((err,connection)=>{
+                pool.getConnection((err,connection)=>{
+                    const query=`Delete from item where id=${id};`;
 
+                    connection.query(query,(err,result)=>{
+                            connection.release();
+                            if(err) {
+                                reject(new Error(err.message));
+                            }
+                            else{                                   
+                                console.log(result,"----------->result ");
+                                console.log(result.affectedRows,"----------->affected");
+                                if(result.affectedRows===1)
+                                    resolve(true);
+                                else 
+                                    resolve(false);
+                            }
+                        });
+                    });
                 });
-                const query=`Delete from item where id=${id};`;
-
-                connection.query(query,(err,result)=>{
-                        
-                        if(err) reject(new Error(err.message));
-                        else{
-                               
-                        console.log(result,"----------->result ");
-                        console.log(result.affectedRows,"----------->affected");
-                        if(result.affectedRows===1)
-                        resolve(true);
-                        else 
-                        resolve(false);
-                        }
-
-                });
-                
-            });
+               
             return response;
        }
        catch(error){
@@ -104,5 +102,5 @@ class Dbservice{
     }
 }
 
-module.exports={Dbservice}; //exporting Dbservice Class
+module.exports=Dbservice; //exporting Dbservice Class
 

@@ -2,7 +2,7 @@ const dotenv=require('dotenv');
 const express=require('express');
 const app=express();
 const cors=require('cors');// to  make api call between backend and frontend
-const dbservices=require("./dbservices");
+const {dbservices,connection}=require("./dbservices");
 
 dotenv.config();
 app.use(cors()); //to will allow to send data to serverside when api call wil be made and will not block.
@@ -13,7 +13,10 @@ app.use(express.static(__dirname+"/client"));
 //create
 app.post("/insert",(request,response)=>{
     const { name } = request.body;
+    // const db = dbservices.getDbServiceInstance();
+    connection.connect();
     const db = dbservices.getDbServiceInstance();
+    connection.end();
     const result = db.insertData(name);
     result
     .then(data => response.json({ data: data}))
@@ -23,8 +26,12 @@ app.post("/insert",(request,response)=>{
 //read route
 app.get("/getall",(request,response)=>{
     
-    const db=dbservices.getDbServiceInstance();
+    // const db=dbservices.getDbServiceInstance();
+    // connection.connect();
+    const db = dbservices.getDbServiceInstance();
+    
     const result=db.getAllData();
+    // connection.end();
     
     result
     .then(data=>response.json({data:data}));
@@ -36,7 +43,10 @@ app.get("/",(req,res)=>{
 //update route
 app.put("/insert",(request,response)=>{
     const { name } = request.body;
-    const db = dbService.getDbServiceInstance();
+    // const db = dbService.getDbServiceInstance();
+    connection.connect();
+    const db = dbservices.getDbServiceInstance();
+    connection.end();
     const result = db.insertData(name);
     result
     .then(data => response.json({ data: data}))
@@ -48,7 +58,9 @@ app.put("/insert",(request,response)=>{
 app.delete("/delete/:Id",(request,response)=>{
 
     const id=request.params.Id;
+    connection.connect();
     const db = dbservices.getDbServiceInstance();
+    connection.end();
     const result = db.deleteData(id);
     result
     .then(data => response.json({ success: data}))

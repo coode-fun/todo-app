@@ -1,49 +1,39 @@
-const mysql=require("mysql");
-const dotenv=require("dotenv");
 
 let instance=null;
-dotenv.config();
-
-
-const connection=mysql.createConnection({
-    // host:'localhost',
-    // user:'root',
-    // password:'',
-    // database:'webapp',
-    // port:3306
-    host:'us-cdbr-east-02.cleardb.com',
-    user:'b2d0edfdf98be6',
-    password:'90d70b55',
-    database:'heroku_8d3b69cd683633a',
-    port:3306
-});
-
-connection.connect((err)=>{
-    if(err){ 
-             console.log("Connection failed!!");
-             throw err;
-    }
-    else
-    console.log("Database Successfully connected!!");
-});
+const pool=require('./connection');
+// connection.connect(function (err){
+//     if(err){ 
+//              console.log("Connection failed!!");
+//              throw err;
+//     }
+//     else
+//     console.log("Database Successfully connected!!");
+// });
 
 
 class Dbservice{
 
     static getDbServiceInstance()
     {
+      
         return instance?instance:new Dbservice();
     }
     async getAllData(){
         try{
+        
              const response= await new Promise((resolve,reject)=>{
 
+                pool.getConnection((err,connection)=>{
                 const query='SELECT * FROM  ITEM;';
                 connection.query(query,(err,result)=>{
-                   if(err) reject(new Error(err.message));
-                   resolve(result);
+                    connection.release();
+                   if(err)
+                        reject(new Error(err.message));
+                   else
+                        resolve(result);
                 });
-             });
+            });
+                })    
              console.log(response);
              return response;
         }
@@ -53,22 +43,27 @@ class Dbservice{
     }
     async insertData(name){
         try{           
-            const dateAdded = new Date();
-            const insertId = await new Promise((resolve, reject) => {
-                const query = "INSERT INTO item (name, date_added) VALUES (?,?);";
-
-                connection.query(query, [name, dateAdded] , (err, rows) => {
-                    if (err) reject(new Error(err.message));
-                    console.log(rows);
-                    resolve(rows.insertId);
-                })
-
-            });
-            return {
-                ID : insertId,
-                Name : name,
-                Date_Added : dateAdded
-            };
+                const dateAdded = new Date();
+                const insertId = await new Promise((resolve, reject) => {
+                    connection.getConnection((err,connection)=>{
+                    const query = "INSERT INTO item (name, date_added) VALUES (?,?);";
+    
+                    connection.query(query, [name, dateAdded] , (err, rows) => {
+                        connection.release();
+                        if (err) reject(new Error(err.message));
+                        else{
+                            console.log(rows);
+                            resolve(rows.insertId);
+                        }
+                    })
+                });
+                return {
+                    ID : insertId,
+                    Name : name,
+                    Date_Added : dateAdded
+                };
+            })
+           
         } catch (error) {
             console.log(error);
         }
@@ -76,21 +71,29 @@ class Dbservice{
     async  deleteData(id)
     {
        try{
+            
             let response=await new Promise((resolve,reject)=>{
                
+                connection.getConnection((err,connection)=>{
+
+                });
                 const query=`Delete from item where id=${id};`;
 
                 connection.query(query,(err,result)=>{
                         
                         if(err) reject(new Error(err.message));
-
+                        else{
+                               
                         console.log(result,"----------->result ");
                         console.log(result.affectedRows,"----------->affected");
                         if(result.affectedRows===1)
                         resolve(true);
                         else 
                         resolve(false);
+                        }
+
                 });
+                
             });
             return response;
        }
@@ -101,5 +104,5 @@ class Dbservice{
     }
 }
 
-module.exports=Dbservice; //exporting Dbservice Class
+module.exports={Dbservice}; //exporting Dbservice Class
 

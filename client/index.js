@@ -1,7 +1,7 @@
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const dotenv=require('dotenv');
-dotenv.config();
+// import { createRequire } from 'module';
+// const require = createRequire(import.meta.url);
+// const dotenv=require('dotenv');
+// dotenv.config();
 
 document.addEventListener('DOMContentLoaded', function() {
    

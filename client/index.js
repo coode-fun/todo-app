@@ -1,7 +1,7 @@
-var port=require("./app.js");
+
 document.addEventListener('DOMContentLoaded', function() {
    
-    fetch(`https://localhost:${port}/getAll`)
+    fetch(`https://localhost:5000/getAll`)
     .then(response=>response.json())
     .then(data=>{ loadHTMLTable(data.data);})
     .catch(err=>{console.log("Error from fetch!!")})

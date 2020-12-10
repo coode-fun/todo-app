@@ -1,7 +1,7 @@
-
+var port=require("./app.js");
 document.addEventListener('DOMContentLoaded', function() {
    
-    fetch(`http://localhost:5000/getAll`)
+    fetch(`https://localhost:${port}/getAll`)
     .then(response=>response.json())
     .then(data=>{ loadHTMLTable(data.data);})
     .catch(err=>{console.log("Error from fetch!!")})
@@ -76,6 +76,7 @@ function insertRowIntoTable(element)
       const newrow=table.insertRow();
       newrow.innerHTML=tableRow;
     }
+    // reloadTable();
 }
 
 function loadHTMLTable(data){

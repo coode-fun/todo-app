@@ -9,10 +9,10 @@ var pool=mysql.createPool({
     // port:3306,
     // host:'localhost'
     connectionLimit : 10,
-    host:'us-cdbr-east-02.cleardb.com',
-    user:'b2d0edfdf98be6',
-    password:'90d70b55',
-    database:'heroku_8d3b69cd683633a',
+    host:process.env.HOST,
+    user:process.env.USER,
+    password:process.env.PASSWORD,
+    database:process.env.DATABASE,
     debug    :  false,
     port:3306
 });

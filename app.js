@@ -10,12 +10,23 @@ app.use(express.json()); //file sharing in jason format
 app.use(express.urlencoded({extended : false}));
 app.use(express.static(__dirname+"/client"));
 
-
-// app.get("*",(req,res)=>{
-
-//     res.sendFile(path.resolve(__dirname,'public',''))
-// })
 //create
+// const allowedOrigins = ["http://localhost:5000","http://localhost:8080"];
+
+//     app.use(
+//         cors({
+//             origin: function(origin, callback) {
+//                 if (!origin) return callback(null, true);
+//                 if (allowedOrigins.indexOf(origin) === -1) {
+//                     var msg =
+//                         "The CORS policy for this site does not " +
+//                         "allow access from the specified Origin.";
+//                     return callback(new Error(msg), false);
+//                 }
+//                 return callback(null, true);
+//             }
+//         })
+//     );
 app.post("/insert",(request,response)=>{
 
     if(!request.body)
@@ -99,7 +110,7 @@ app.delete("/delete/:Id",(request,response)=>{
     .then(data => response.json({ success: data}))
     .catch(err => console.log(err));
 });
-var port=process.env.PORT||5000;
-app.listen(port,()=>{
-    console.log(`Server Running at http://localhost:${port}`);
+//var port=process.env.PORT||5000;
+app.listen(5000,()=>{
+    console.log(`Server Running at http://localhost:5000`);
 });

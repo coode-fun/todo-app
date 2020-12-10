@@ -1,8 +1,7 @@
 
-
 document.addEventListener('DOMContentLoaded', function() {
    
-    fetch('http://localhost:5000/getAll')
+    fetch(`http://localhost:5000/getAll`)
     .then(response=>response.json())
     .then(data=>{ loadHTMLTable(data.data);});
 });
@@ -14,27 +13,26 @@ document.getElementById('one').addEventListener("click",(event)=>{
         }
         if(event.target.dataset.id=='edit-row-btn')
         {
-
+            console.log("Still under process");
         }
 });
 
-
 function deleteRowbyId(id)
 {
-            fetch('http://localhost:5000/delete/'+id,{method:'DELETE'})
-           .then(response=>response.json())
-           .then(response=>{
+            fetch(`http://localhost:5000/delete/`+id,{method:'DELETE'})
+            .then(response=>response.json())
+            .then(response=>{
             if(response.success)
             {
               //location.reload();
                 reloadTable();
-            }
+             }
             });
 }
+
 function reloadTable()
 {  
-
-  fetch('http://localhost:5000/getAll')
+  fetch(`http://localhost:5000/getAll`)
   .then(response=>response.json())
   .then(data=>{ loadHTMLTable(data.data);});
 }
@@ -45,7 +43,7 @@ addbtn.addEventListener('click',()=>{
   const name=addname.value;
   addname.value="";
 
-  fetch('http://localhost:5000/insert',{
+  fetch(`http://localhost:5000/insert`,{
   headers:{'content-type':'application/json'},
   method:'POST',
   body:  JSON.stringify({name:name})
@@ -80,18 +78,18 @@ function insertRowIntoTable(element)
 }
 
 function loadHTMLTable(data){
-  
-  console.log(data);
+
 let table=document.getElementById('one');
 
     if(data.length===0)
     {
       table.innerHTML="<tr><td class='no-data' colspan='5'>No-data</td></tr>";
     }
-    else{
-        console.log("INside else");
-         let tableRow="";
-        data.forEach(element => {
+    else
+    {
+          console.log("Inside else");
+          let tableRow="";
+          data.forEach(element => {
           
           console.log("element :",element);
           console.log("ele,emt Name :",element.Name);

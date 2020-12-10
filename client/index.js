@@ -5,7 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
    
-    fetch(`http://us-cdbr-east-02.cleardb.com:5000/getAll`)
+    fetch(`http://localhost:5000/getAll`)
     .then(response=>response.json())
     .then(data=>{ loadHTMLTable(data.data);});
 });
@@ -17,14 +17,13 @@ document.getElementById('one').addEventListener("click",(event)=>{
         }
         if(event.target.dataset.id=='edit-row-btn')
         {
-
+            console.log("Still under process");
         }
 });
 
-
 function deleteRowbyId(id)
 {
-            fetch(`http://us-cdbr-east-02.cleardb:5000/delete/`+id,{method:'DELETE'})
+            fetch(`http://localhost:5000/delete/`+id,{method:'DELETE'})
            .then(response=>response.json())
            .then(response=>{
             if(response.success)
@@ -37,7 +36,7 @@ function deleteRowbyId(id)
 function reloadTable()
 {  
 
-  fetch(`http://us-cdbr-east-02.cleardb:5000/getAll`)
+  fetch(`http://localhost:5000/getAll`)
   .then(response=>response.json())
   .then(data=>{ loadHTMLTable(data.data);});
 }
@@ -48,7 +47,7 @@ addbtn.addEventListener('click',()=>{
   const name=addname.value;
   addname.value="";
 
-  fetch(`http://us-cdbr-east-02.cleardb:5000/insert`,{
+  fetch(`http://localhost:5000/insert`,{
   headers:{'content-type':'application/json'},
   method:'POST',
   body:  JSON.stringify({name:name})
@@ -92,7 +91,7 @@ let table=document.getElementById('one');
       table.innerHTML="<tr><td class='no-data' colspan='5'>No-data</td></tr>";
     }
     else{
-        console.log("INside else");
+        console.log("Inside else");
          let tableRow="";
         data.forEach(element => {
           

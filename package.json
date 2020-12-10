@@ -10,13 +10,13 @@
   "engines": {
     "node": "12.18.3"
   },
+  "proxy": "http://localhost:5000",
   "author": "\"Aksingh\"",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mysql": "^2.18.1",
-    "sql": "^0.78.0"
+    "mysql": "^2.18.1"
   }
 }

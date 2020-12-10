@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', function() {
    
     fetch(`/getAll`)
     .then(response=>response.json())
-    .then(data=>{ loadHTMLTable(data.data);});
+    .then(data=>{ loadHTMLTable(data.data);})
+    .catch(err=>{console.log("Error from fetch!!")})
 });
 
 document.getElementById('one').addEventListener("click",(event)=>{

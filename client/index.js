@@ -1,7 +1,3 @@
-// import { createRequire } from 'module';
-// const require = createRequire(import.meta.url);
-// const dotenv=require('dotenv');
-// dotenv.config();
 
 document.addEventListener('DOMContentLoaded', function() {
    
@@ -24,18 +20,18 @@ document.getElementById('one').addEventListener("click",(event)=>{
 function deleteRowbyId(id)
 {
             fetch(`http://localhost:5000/delete/`+id,{method:'DELETE'})
-           .then(response=>response.json())
-           .then(response=>{
+            .then(response=>response.json())
+            .then(response=>{
             if(response.success)
             {
               //location.reload();
                 reloadTable();
-            }
+             }
             });
 }
+
 function reloadTable()
 {  
-
   fetch(`http://localhost:5000/getAll`)
   .then(response=>response.json())
   .then(data=>{ loadHTMLTable(data.data);});
@@ -82,18 +78,18 @@ function insertRowIntoTable(element)
 }
 
 function loadHTMLTable(data){
-  
-  console.log(data);
+
 let table=document.getElementById('one');
 
     if(data.length===0)
     {
       table.innerHTML="<tr><td class='no-data' colspan='5'>No-data</td></tr>";
     }
-    else{
-        console.log("Inside else");
-         let tableRow="";
-        data.forEach(element => {
+    else
+    {
+          console.log("Inside else");
+          let tableRow="";
+          data.forEach(element => {
           
           console.log("element :",element);
           console.log("ele,emt Name :",element.Name);

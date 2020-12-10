@@ -110,6 +110,9 @@ app.delete("/delete/:Id",(request,response)=>{
     .then(data => response.json({ success: data}))
     .catch(err => console.log(err));
 });
+app.get("/w",(req,res)=>{
+    res.send("Hello");
+})
 var port=process.env.PORT||5000;
 app.listen(port,()=>{
     console.log(`Server Running at http://localhost:${port}`);
